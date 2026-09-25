@@ -1,0 +1,692 @@
+/* ============================================================
+   BrainBots Attendance · Landing Page
+   Design system: Brainbots.lk commercial platform aesthetic
+   ============================================================ */
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+/* ----------------------------------------------------------------- layout */
+
+.l-wrap {
+  width: 100%;
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 0 28px;
+}
+
+/* -------------------------------------------------------------------- nav */
+
+.l-nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: saturate(1.8) blur(16px);
+  -webkit-backdrop-filter: saturate(1.8) blur(16px);
+  border-bottom: 1px solid rgba(226, 233, 245, 0.8);
+  box-shadow: 0 2px 12px rgba(15, 23, 42, 0.04);
+}
+
+.l-nav-in {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  height: 70px;
+}
+
+.l-links {
+  display: flex;
+  gap: 4px;
+  margin-left: auto;
+}
+
+.l-links a {
+  padding: 8px 16px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: -0.01em;
+  color: var(--text-2);
+  transition: background 0.18s, color 0.18s;
+}
+
+.l-links a:hover {
+  background: var(--surface-2);
+  color: var(--brand);
+}
+
+.l-nav .btn {
+  text-decoration: none;
+}
+
+/* ------------------------------------------------------------------- hero */
+
+.l-hero {
+  position: relative;
+  overflow: hidden;
+  padding: 96px 0 108px;
+  background:
+    radial-gradient(ellipse 70% 55% at 8% -5%, rgba(37, 99, 235, 0.14) 0%, transparent 65%),
+    radial-gradient(ellipse 55% 45% at 95% 15%, rgba(124, 58, 237, 0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 35% at 50% 100%, rgba(14, 165, 233, 0.08) 0%, transparent 70%),
+    #F8FAFC;
+}
+
+/* Decorative floating blob */
+.l-hero::after {
+  content: '';
+  position: absolute;
+  right: -180px;
+  top: -120px;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(29, 97, 231, 0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.l-hero-in {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 64px;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+/* Category badge — Brainbots.lk style gold star pill */
+.l-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 16px;
+  border-radius: 999px;
+  background: var(--brand-wash);
+  color: var(--brand);
+  border: 1.5px solid rgba(29, 97, 231, 0.2);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.l-badge::before {
+  content: '⭐';
+  font-size: 13px;
+}
+
+.l-hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(40px, 5.2vw, 62px);
+  line-height: 1.04;
+  letter-spacing: -0.04em;
+  font-weight: 800;
+  margin: 18px 0 0;
+  color: var(--text);
+}
+
+/* Brainbots.lk gradient text — blue to purple */
+.l-grad {
+  background: var(--grad-brand);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.l-lead {
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--text-2);
+  max-width: 500px;
+  margin: 20px 0 0;
+  font-weight: 400;
+}
+
+.l-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 34px;
+}
+
+.l-btn-lg {
+  padding: 15px 28px;
+  font-size: 15px;
+  letter-spacing: -0.01em;
+}
+
+.l-points {
+  list-style: none;
+  padding: 0;
+  margin: 28px 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  color: var(--text-2);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.l-points li {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.l-points .icon {
+  color: var(--ok);
+  width: 16px;
+  height: 16px;
+}
+
+/* ------------------------------------------------ product preview / mock */
+
+.mock {
+  position: relative;
+  background: var(--surface);
+  border: 1.5px solid var(--line);
+  border-radius: 22px;
+  box-shadow:
+    var(--shadow-md),
+    0 40px 80px -30px rgba(29, 97, 231, 0.22);
+}
+
+.mock-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--line);
+  border-radius: 22px 22px 0 0;
+  background: var(--surface-2);
+}
+
+.mock-bar i {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--line-strong);
+}
+
+.mock-bar i:nth-child(1) { background: #EF4444; }
+.mock-bar i:nth-child(2) { background: #F59E0B; }
+.mock-bar i:nth-child(3) { background: #10B981; }
+
+.mock-bar span {
+  margin-left: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-3);
+  letter-spacing: 0.02em;
+}
+
+.mock-body {
+  padding: 18px 18px 50px;
+  display: grid;
+  gap: 14px;
+}
+
+.mock-tiles {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.mock-tiles > div {
+  --h: 220;
+  padding: 12px 14px;
+  border-radius: 13px;
+  background: hsl(var(--h) var(--k-s) var(--k-bg));
+  border: 1.5px solid hsl(var(--h) var(--k-s) var(--k-line));
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.mock-tiles span {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: hsl(var(--h) 50% var(--k-fg));
+  font-weight: 700;
+}
+
+.mock-tiles strong {
+  font-size: 24px;
+  line-height: 1;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: hsl(var(--h) 65% var(--k-fg));
+}
+
+.mock-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.mock .card {
+  padding: 14px 12px 12px;
+  gap: 9px;
+  pointer-events: none;
+  border-radius: 14px;
+}
+
+.mock .card-top { gap: 7px; }
+.mock .card-icon { width: 26px; height: 26px; font-size: 13px; border-radius: 8px; }
+.mock .card-name { font-size: 12px; line-height: 1.15; }
+.mock .card-count { min-height: 0; font-size: 11.5px; gap: 5px; }
+.mock .card-count strong { font-size: 24px; }
+.mock .meter { height: 5px; border-radius: 999px; }
+
+.mock-feed {
+  list-style: none;
+  margin: 0;
+  padding: 4px 0 0;
+  display: grid;
+  gap: 2px;
+}
+
+.mock-feed li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 4px;
+  border-top: 1px solid var(--line);
+  font-size: 13px;
+}
+
+.mock-who { flex: 1; font-weight: 600; }
+.mock-time { color: var(--text-3); font-size: 12px; min-width: 38px; text-align: right; font-variant-numeric: tabular-nums; }
+.mock-feed .pill { font-size: 11.5px; padding: 2px 9px; }
+
+/* Floating toast notification */
+.mock-toast {
+  position: absolute;
+  left: -32px;
+  bottom: -28px;
+  width: 280px;
+  background: var(--surface);
+  border: 1.5px solid var(--line);
+  border-radius: 16px;
+  box-shadow: var(--shadow-md);
+}
+
+/* ---------------------------------------------------------------- sections */
+
+.l-section {
+  padding: 96px 0;
+}
+
+.l-alt {
+  background: var(--surface);
+  border-top: 1.5px solid var(--line);
+  border-bottom: 1.5px solid var(--line);
+}
+
+/* Brainbots.lk: gradient eyebrow */
+.l-eyebrow {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: var(--grad-brand);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 12px;
+}
+
+.l-title {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 3.6vw, 42px);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  text-transform: none;
+  color: var(--text);
+  font-weight: 800;
+  margin: 0;
+  max-width: 640px;
+}
+
+.l-intro {
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--text-2);
+  max-width: 560px;
+  margin: 16px 0 0;
+}
+
+/* Brainbots.lk: pastel STEM feature cards */
+.l-features {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin-top: 48px;
+}
+
+.l-feature {
+  --h: 220;
+  padding: 28px 26px 30px;
+  border-radius: 22px;
+  background: hsl(var(--h) var(--k-s) var(--k-bg));
+  border: 1.5px solid hsl(var(--h) var(--k-s) var(--k-line));
+  box-shadow: var(--shadow-xs);
+  transition: transform 0.22s, box-shadow 0.22s;
+  position: relative;
+  overflow: hidden;
+}
+
+.l-feature::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: hsl(var(--h) 75% var(--k-bar));
+  border-radius: 22px 22px 0 0;
+}
+
+.l-feature:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.l-feature h3 {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 18px 0 8px;
+  color: hsl(var(--h) 60% var(--k-fg));
+}
+
+.l-feature p {
+  margin: 0;
+  color: var(--text-2);
+  font-size: 14.5px;
+  line-height: 1.6;
+}
+
+/* ------------------------------------------------ steps / how it works */
+
+.l-steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  margin-top: 48px;
+}
+
+/* Numbered badge — brand blue circle */
+.l-step-n {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 20px;
+  color: var(--on-brand);
+  background: var(--brand);
+  box-shadow: var(--shadow-brand);
+}
+
+.l-step h3 {
+  font-family: var(--font-display);
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 18px 0 8px;
+}
+
+.l-step p {
+  margin: 0;
+  color: var(--text-2);
+  max-width: 320px;
+  line-height: 1.6;
+}
+
+/* ----------------------------------------------------------- hardware */
+
+.l-hw {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+}
+
+.l-checks {
+  list-style: none;
+  padding: 0;
+  margin: 28px 0 0;
+  display: grid;
+  gap: 14px;
+}
+
+.l-checks li {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.l-checks .icon {
+  margin-top: 3px;
+  color: var(--ok);
+  flex: none;
+  width: 18px;
+  height: 18px;
+}
+
+/* Signal flow: Card → Reader → Server → Dashboard */
+.l-flow {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.l-flow-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.l-flow-arrow {
+  color: var(--text-3);
+  transform: rotate(90deg);
+  font-size: 20px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+}
+
+.l-flow-node {
+  --h: 220;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 22px;
+  border-radius: 18px;
+  font-weight: 700;
+  font-size: 15px;
+  background: hsl(var(--h) var(--k-s) var(--k-bg));
+  border: 1.5px solid hsl(var(--h) var(--k-s) var(--k-line));
+  box-shadow: var(--shadow-xs);
+  color: hsl(var(--h) 55% var(--k-fg));
+  transition: transform 0.18s, box-shadow 0.18s;
+}
+
+.l-flow-node:hover {
+  transform: translateX(4px);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ------------------------------------------- CTA band (dark navy, Brainbots) */
+
+.l-band {
+  background: linear-gradient(130deg, #0D111D 0%, #1440A8 55%, #1D61E7 100%);
+  color: #fff;
+  padding: 72px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.l-band::before {
+  content: '';
+  position: absolute;
+  right: -100px; top: -100px;
+  width: 500px; height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(124, 58, 237, 0.25) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.l-band-in {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
+}
+
+.l-band h2 {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  text-transform: none;
+  color: #fff;
+  margin: 0;
+  line-height: 1.15;
+}
+
+.l-band p {
+  margin: 8px 0 0;
+  opacity: 0.75;
+  font-size: 16px;
+}
+
+.l-btn-light {
+  background: #fff !important;
+  color: var(--brand-ink) !important;
+  box-shadow: 0 8px 24px rgba(255, 255, 255, 0.2) !important;
+}
+
+.l-btn-light:hover {
+  background: #EBF1FD !important;
+  transform: translateY(-2px);
+}
+
+/* ----------------------------------------------------------------- footer */
+
+.l-footer {
+  border-top: 1.5px solid var(--line);
+  padding: 36px 0;
+  background: var(--surface);
+}
+
+.l-footer-in {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+
+.l-footer nav {
+  display: flex;
+  gap: 20px;
+  margin-left: auto;
+}
+
+.l-footer nav a {
+  color: var(--text-2);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  transition: color 0.15s;
+}
+
+.l-footer nav a:hover {
+  color: var(--brand);
+}
+
+.l-footer small {
+  color: var(--text-3);
+  width: 100%;
+  text-align: center;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  font-size: 13px;
+}
+
+/* --------------------------------------------------------- responsive */
+
+@media (max-width: 1000px) {
+  .l-hero-in,
+  .l-hw {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+  .l-features {
+    grid-template-columns: 1fr 1fr;
+  }
+  .mock-toast {
+    left: 12px;
+    bottom: -20px;
+    width: 260px;
+  }
+}
+
+@media (max-width: 640px) {
+  .l-wrap {
+    padding: 0 18px;
+  }
+  .l-links {
+    display: none;
+  }
+  .l-nav-in {
+    justify-content: space-between;
+    height: 62px;
+  }
+  .l-hero {
+    padding: 52px 0 72px;
+  }
+  .l-section {
+    padding: 64px 0;
+  }
+  .l-features,
+  .l-steps {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .l-cta .btn {
+    flex: 1 1 100%;
+    justify-content: center;
+  }
+  .mock-cards {
+    grid-template-columns: 1fr;
+  }
+  .mock-toast {
+    position: static;
+    width: auto;
+    margin: 0 18px 18px;
+  }
+  .l-footer nav {
+    margin-left: 0;
+    flex-wrap: wrap;
+  }
+  .l-band h2 {
+    font-size: 26px;
+  }
+}
