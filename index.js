@@ -28,7 +28,14 @@ app.use(express.json());
 
 // Serve built React frontend in production
 app.use(express.static(path.join(__dirname, 'dist')));
-app.get('/api/health', (_req, res) => res.json({ ok: true, mqtt: mqttState() }));
+let dbError = '';
+app.get('/api/health', (_req, res) =>
+  res.json({
+    ok: true,
+    db: mongoose.connection.readyState === 1 ? 'connected' : dbError || 'connecting',
+    mqtt: mqttState(),
+  })
+);
 app.use('/api/auth', authRoutes);
 app.use('/api/batches', batchRoutes);
 app.use('/api/students', studentRoutes);
@@ -73,10 +80,23 @@ io.on('connection', (socket) => {
   for (const status of readerStatuses()) socket.emit('reader:status', status);
 });
 
-await mongoose.connect(config.mongoUri);
-console.log('[db] connected');
-
-startMqtt();
-await startNotifier();
-
+// Listen first, so the host sees a running app even while the database is
+// unreachable; a crash here shows only as a 503 with no clue why.
 server.listen(config.port, () => console.log(`[api] listening on ${config.port}`));
+
+process.on('unhandledRejection', (err) => console.error('[process] unhandled rejection:', err));
+process.on('uncaughtException', (err) => console.error('[process] uncaught exception:', err));
+
+async function connectDb() {
+  try {
+    await mongoose.connect(config.mongoUri, { serverSelectionTimeoutMS: 10_000 });
+    console.log('[db] connected');
+    startMqtt();
+    await startNotifier();
+  } catch (err) {
+    dbError = err.message;
+    console.error('[db] connection failed, retrying in 15s:', err.message);
+    setTimeout(connectDb, 15_000);
+  }
+}
+connectDb();
