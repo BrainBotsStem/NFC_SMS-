@@ -82,7 +82,7 @@ io.on('connection', (socket) => {
 
 // Listen first, so the host sees a running app even while the database is
 // unreachable; a crash here shows only as a 503 with no clue why.
-server.listen(config.port, () => console.log(`[api] listening on ${config.port}`));
+server.listen(config.port, '0.0.0.0', () => console.log(`[api] listening on ${config.port}`));
 
 process.on('unhandledRejection', (err) => console.error('[process] unhandled rejection:', err));
 process.on('uncaughtException', (err) => console.error('[process] uncaught exception:', err));
