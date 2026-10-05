@@ -1,4 +1,7 @@
 import http from 'node:http';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
@@ -23,7 +26,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.get('/', (_req, res) => res.redirect('http://localhost:5173'));
+// Serve built React frontend in production
+app.use(express.static(path.join(__dirname, 'dist')));
 app.get('/api/health', (_req, res) => res.json({ ok: true, mqtt: mqttState() }));
 app.use('/api/auth', authRoutes);
 app.use('/api/batches', batchRoutes);
@@ -33,6 +37,11 @@ app.use('/api/attendance', attendanceRoutes);
 app.use('/api/reports', reportRoutes);
 app.use('/api/staff', staffRoutes);
 app.use('/api/notifications', notificationRoutes);
+
+// Catch-all: send React app for any non-API route (React Router handles it)
+app.get('*', (_req, res) =>
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'))
+);
 
 app.use((err, _req, res, _next) => {
   console.error('[api]', err.message || err);
