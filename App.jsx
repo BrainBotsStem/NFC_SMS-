@@ -11,7 +11,6 @@ import DepartmentDetail from './pages/DepartmentDetail.jsx';
 import StaffMembers from './pages/StaffMembers.jsx';
 import StudentHistory from './pages/StudentHistory.jsx';
 import StaffHistory from './pages/StaffHistory.jsx';
-import Messages from './pages/Messages.jsx';
 
 export default function App() {
   const { user, ready } = useAuth();
@@ -38,7 +37,6 @@ export default function App() {
         {students && <Route path="/batch/:id" element={<BatchDetail />} />}
         {students && <Route path="/admin" element={<Admin />} />}
         {students && <Route path="/student/:id" element={<StudentHistory />} />}
-        {students && <Route path="/messages" element={<Messages />} />}
         {staff && <Route path="/departments" element={<Departments />} />}
         {staff && <Route path="/department/:id" element={<DepartmentDetail />} />}
         {staff && <Route path="/staff" element={<StaffMembers />} />}

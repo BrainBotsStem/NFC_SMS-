@@ -10,7 +10,7 @@
     "build": "vite build",
     "seed": "node seed.js",
     "set-admin": "node set-admin.js",
-    "test": "node ids.test.mjs && node notify.test.mjs"
+    "test": "node ids.test.mjs"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

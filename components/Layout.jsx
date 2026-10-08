@@ -60,15 +60,6 @@ export default function Layout({ children }) {
         icon: 'card',
       });
 
-    // A parent text that could not be sent after its retries.
-    const onNotify = (m) =>
-      m.status === 'failed' &&
-      toast('A parent message failed', {
-        detail: [m.name, m.error].filter(Boolean).join(' · '),
-        type: 'warn',
-        icon: 'message',
-      });
-
     socket.on('reader:status', onStatus);
     socket.on('broker:status', onBroker);
     socket.on('connect', onServerBack);
@@ -81,7 +72,6 @@ export default function Layout({ children }) {
     socket.on('staff:in', onStaffIn);
     socket.on('staff:out', onStaffOut);
     socket.on('staff:repeat', onRepeat);
-    socket.on('notify:update', onNotify);
     return () => {
       socket.off('reader:status', onStatus);
       socket.off('broker:status', onBroker);
@@ -95,7 +85,6 @@ export default function Layout({ children }) {
       socket.off('staff:in', onStaffIn);
       socket.off('staff:out', onStaffOut);
       socket.off('staff:repeat', onRepeat);
-      socket.off('notify:update', onNotify);
     };
   }, [toast]);
 
@@ -136,9 +125,6 @@ export default function Layout({ children }) {
               </NavLink>
               <NavLink to="/admin" className={tab}>
                 Students
-              </NavLink>
-              <NavLink to="/messages" className={tab}>
-                Messages
               </NavLink>
             </>
           )}

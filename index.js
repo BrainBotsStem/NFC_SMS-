@@ -18,8 +18,6 @@ import enrolRoutes from './routes/enrol.js';
 import attendanceRoutes from './routes/attendance.js';
 import reportRoutes from './routes/reports.js';
 import staffRoutes from './routes/staff.js';
-import notificationRoutes from './routes/notifications.js';
-import { startNotifier } from './notify.js';
 
 
 const app = express();
@@ -43,7 +41,6 @@ app.use('/api/enrol', enrolRoutes);
 app.use('/api/attendance', attendanceRoutes);
 app.use('/api/reports', reportRoutes);
 app.use('/api/staff', staffRoutes);
-app.use('/api/notifications', notificationRoutes);
 
 // Catch-all: send React app for any non-API route (React Router handles it)
 app.get('*', (_req, res) =>
@@ -92,7 +89,6 @@ async function connectDb() {
     await mongoose.connect(config.mongoUri, { serverSelectionTimeoutMS: 10_000 });
     console.log('[db] connected');
     startMqtt();
-    await startNotifier();
   } catch (err) {
     dbError = err.message;
     console.error('[db] connection failed, retrying in 15s:', err.message);

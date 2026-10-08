@@ -1,16 +1,14 @@
 import { Router } from 'express';
-import { Student, Batch, Attendance, Staff, Notification } from '../models.js';
+import { Student, Batch, Attendance, Staff } from '../models.js';
 import { requireAuth, requireAdmin } from '../auth.js';
 import { nextStudentId, normaliseUid } from '../ids.js';
 import { publishRoster } from '../mqtt.js';
 import { asyncHandler } from '../asyncHandler.js';
-import { normalisePhone } from '../notify.js';
 
 const router = Router();
 router.use(requireAuth, requireAdmin);
 
 const escapeRegex = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-const BAD_PHONE = "Enter the parent's mobile number like 077 123 4567, or leave it empty.";
 
 router.get(
   '/',
@@ -32,13 +30,11 @@ router.get(
 router.post(
   '/',
   asyncHandler(async (req, res) => {
-    const { uid, name, batch: batchId, parentPhone, notifyParent } = req.body || {};
+    const { uid, name, batch: batchId } = req.body || {};
     const cardUid = normaliseUid(uid);
-    const phone = normalisePhone(parentPhone);
 
     if (!cardUid) return res.status(400).json({ error: 'Scan a card before saving.' });
     if (!name?.trim()) return res.status(400).json({ error: 'Enter the student name.' });
-    if (phone === null) return res.status(400).json({ error: BAD_PHONE });
 
     const batch = await Batch.findById(batchId);
     if (!batch) return res.status(400).json({ error: 'Choose a batch.' });
@@ -56,8 +52,6 @@ router.post(
       name: name.trim(),
       uid: cardUid,
       batch: batch._id,
-      parentPhone: phone,
-      notifyParent: notifyParent !== false,
     });
     publishRoster().catch((err) => console.error('[mqtt] roster failed:', err.message));
     res.status(201).json({ student: await student.populate('batch', 'name level') });
@@ -120,12 +114,6 @@ router.patch(
       if (!batch) return res.status(400).json({ error: 'Choose a batch.' });
       update.batch = batch._id;
     }
-    if (req.body?.parentPhone !== undefined) {
-      const phone = normalisePhone(req.body.parentPhone);
-      if (phone === null) return res.status(400).json({ error: BAD_PHONE });
-      update.parentPhone = phone;
-    }
-    if (typeof req.body?.notifyParent === 'boolean') update.notifyParent = req.body.notifyParent;
 
     const student = await Student.findByIdAndUpdate(req.params.id, update, { new: true }).populate(
       'batch',
@@ -136,14 +124,13 @@ router.patch(
   })
 );
 
-/** Removes the student with their attendance history and parent messages. */
+/** Removes the student with their attendance history. */
 router.delete(
   '/:id',
   asyncHandler(async (req, res) => {
     const student = await Student.findByIdAndDelete(req.params.id);
     if (!student) return res.status(404).json({ error: 'That student does not exist.' });
     await Attendance.deleteMany({ student: student._id });
-    await Notification.deleteMany({ student: student._id });
     publishRoster().catch((err) => console.error('[mqtt] roster failed:', err.message));
     res.json({ ok: true });
   })

@@ -29,33 +29,6 @@ export const config = {
     topicRoot: process.env.MQTT_TOPIC_ROOT || 'bb/att',
   },
 
-  // Text messages to parents when a student arrives or leaves.
-  notify: {
-    // off: nothing is sent · console: messages are written to the server log
-    // instead of sent (for trying it out) · notifylk: real SMS through Notify.lk
-    provider: (process.env.NOTIFY_PROVIDER || 'off').toLowerCase(),
-    // daily: one "arrived" and one "left" per stay, not one per class ·
-    // every: a message for every in and out tap
-    mode: (process.env.NOTIFY_MODE || 'daily').toLowerCase(),
-    // daily mode: a "left" message waits this long, and is dropped if the
-    // student taps in again first (a break between two classes).
-    outDelayMs: Number(process.env.NOTIFY_OUT_DELAY_MINUTES ?? 20) * 60 * 1000,
-    // A tap that reaches the server later than this (the reader was offline)
-    // is not texted; old news would only worry a parent.
-    maxLateMs: Number(process.env.NOTIFY_MAX_LATE_MINUTES ?? 60) * 60 * 1000,
-    countryCode: String(process.env.NOTIFY_COUNTRY_CODE || '94').replace(/\D/g, ''),
-    centreName: process.env.NOTIFY_CENTRE_NAME || 'BrainBots',
-    // Placeholders: {centre} {name} {id} {batch} {time} {date}
-    templateIn:
-      process.env.NOTIFY_TEMPLATE_IN || '{centre}: {name} ({id}) arrived at {time} on {date}. {batch}.',
-    templateOut: process.env.NOTIFY_TEMPLATE_OUT || '{centre}: {name} ({id}) left at {time} on {date}.',
-    notifylk: {
-      userId: process.env.NOTIFYLK_USER_ID || '',
-      apiKey: process.env.NOTIFYLK_API_KEY || '',
-      senderId: process.env.NOTIFYLK_SENDER_ID || 'NotifyDEMO',
-    },
-  },
-
   seedAdmin: {
     username: process.env.ADMIN_USERNAME || 'admin',
     password: process.env.ADMIN_PASSWORD || 'admin123',

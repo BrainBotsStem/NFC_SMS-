@@ -6,7 +6,7 @@ import Modal from '../components/Modal.jsx';
 import ReportModal from '../components/ReportModal.jsx';
 import { Avatar, Empty } from '../components/ui.jsx';
 import { useToast } from '../components/Toasts.jsx';
-import { batchHue, formatPhone } from '../lib/format.js';
+import { batchHue } from '../lib/format.js';
 import { usePageTitle } from '../lib/usePageTitle.js';
 
 export default function Admin() {
@@ -51,8 +51,6 @@ export default function Admin() {
         body: JSON.stringify({
           name: editing.name,
           batch: editing.batch,
-          parentPhone: editing.parentPhone,
-          notifyParent: editing.notifyParent,
         }),
       });
       setStudents((list) => list.map((s) => (s._id === student._id ? student : s)));
@@ -144,7 +142,6 @@ export default function Admin() {
                 <th>Student ID</th>
                 <th>Name</th>
                 <th>Batch</th>
-                <th className="hide-sm">Parent</th>
                 <th className="hide-sm">Card</th>
                 <th />
               </tr>
@@ -164,16 +161,6 @@ export default function Admin() {
                       {s.batch?.name}
                     </span>
                   </td>
-                  <td className="code num hide-sm">
-                    {s.parentPhone ? (
-                      <span title={s.notifyParent === false ? 'Texts to the parent are off' : 'Gets arrival and leaving texts'}>
-                        {formatPhone(s.parentPhone)}
-                        {s.notifyParent === false && <em className="muted-note"> · off</em>}
-                      </span>
-                    ) : (
-                      '—'
-                    )}
-                  </td>
                   <td className="code num hide-sm">{s.uid}</td>
                   <td>
                     <div className="row-actions">
@@ -190,8 +177,6 @@ export default function Admin() {
                             _id: s._id,
                             name: s.name,
                             batch: s.batch._id,
-                            parentPhone: s.parentPhone ? formatPhone(s.parentPhone) : '',
-                            notifyParent: s.notifyParent !== false,
                           })
                         }
                       >
@@ -254,27 +239,6 @@ export default function Admin() {
                   </option>
                 ))}
               </select>
-            </label>
-
-            <label className="field">
-              <span>Parent's mobile</span>
-              <input
-                type="tel"
-                inputMode="tel"
-                value={editing.parentPhone}
-                placeholder="e.g. 077 123 4567"
-                onChange={(e) => setEditing({ ...editing, parentPhone: e.target.value })}
-              />
-            </label>
-
-            <label className="check-field">
-              <input
-                type="checkbox"
-                checked={editing.notifyParent}
-                disabled={!editing.parentPhone.trim()}
-                onChange={(e) => setEditing({ ...editing, notifyParent: e.target.checked })}
-              />
-              Text the parent when {editing.name.trim() || 'the student'} arrives and leaves
             </label>
 
             <div className="modal-actions">

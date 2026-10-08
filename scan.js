@@ -2,7 +2,6 @@ import { Student, Attendance, Staff, StaffAttendance } from './models.js';
 import { config } from './config.js';
 import { localDay, normaliseUid } from './ids.js';
 import { emit } from './realtime.js';
-import { notifyIn, notifyOut } from './notify.js';
 
 /**
  * Enrolment is a short-lived server-side state. While the window is open the
@@ -136,7 +135,6 @@ export async function handleScan({ uid, deviceId, at, live = true }) {
           studentId: student.studentId,
           name: student.name,
         }, 'admin');
-        await tellParent(notifyOut, student, now);
         return 'ok';
       }
     }
@@ -168,18 +166,8 @@ export async function handleScan({ uid, deviceId, at, live = true }) {
     studentId: student.studentId,
     name: student.name,
   }, 'admin');
-  await tellParent(notifyIn, student, now);
 
   return 'ok';
-}
-
-/** A message to a parent must never stop a tap from being recorded or answered. */
-async function tellParent(fn, student, at) {
-  try {
-    await fn(student, at);
-  } catch (err) {
-    console.error('[sms] could not queue a parent message:', err.message);
-  }
 }
 
 /** What the staff dashboards are told about one day's row. */

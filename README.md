@@ -194,24 +194,6 @@ back. A UID that is not in the database returns `deny`; open the enrolment windo
 first and the same UID will be captured as a new card instead. To try a stored tap, add an `id`
 and a time: `{"uid":"A42B9F01","t":1789993042,"id":"test-1"}`, and read `bb/att/reader1/ack`.
 
-## Texts to parents
-
-When a student taps in, their parent can get a text ("Priya (Bb/EL/26/0101) arrived at 9:05 AM"),
-and another when they leave. Add the parent's mobile when enrolling a card, or later with Edit on the
-Students page. The **Messages** page lists every text and what happened to it, and can send a test.
-
-- `NOTIFY_PROVIDER`: `off`, `console` (written to the server log, nothing sent — for trying it out),
-  or `notifylk` (real SMS through Notify.lk; fill in `NOTIFYLK_USER_ID`, `NOTIFYLK_API_KEY`,
-  `NOTIFYLK_SENDER_ID`).
-- `NOTIFY_MODE=daily` (default): one "arrived" per stay, and a "left" that waits
-  `NOTIFY_OUT_DELAY_MINUTES` (20) and is dropped if the student taps in for the next class.
-  `every`: a text for every in and out tap.
-- A tap that reaches the server more than `NOTIFY_MAX_LATE_MINUTES` (60) late, because the reader was
-  offline, is not texted. It shows as Skipped and can be sent by hand.
-- Change the wording with `NOTIFY_TEMPLATE_IN` / `NOTIFY_TEMPLATE_OUT`
-  (placeholders `{centre} {name} {id} {batch} {time} {date}`). Keep it under 160 characters; Tamil or
-  other non-Latin text costs more, as each SMS then holds only 70 characters.
-
 ## Deliberately left out
 
 Things that would be reasonable next steps, not built because they were not asked for:

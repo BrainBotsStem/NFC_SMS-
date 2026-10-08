@@ -25,9 +25,6 @@ const studentSchema = new Schema(
     name: { type: String, required: true, trim: true },
     uid: { type: String, required: true, unique: true }, // card UID, uppercase hex
     batch: { type: Schema.Types.ObjectId, ref: 'Batch', required: true },
-    // Parent's mobile in international digits, "94771234567". Empty: no messages.
-    parentPhone: { type: String, default: '' },
-    notifyParent: { type: Boolean, default: true },
   },
   { timestamps: true }
 );
@@ -84,37 +81,6 @@ const processedTapSchema = new Schema({
   createdAt: { type: Date, default: Date.now, expires: 60 * 60 * 24 * 30 },
 });
 
-// One text message to a parent about an arrival or a departure. Rows double as
-// the send queue (pending) and the log the dashboard shows (everything else).
-const notificationSchema = new Schema(
-  {
-    student: { type: Schema.Types.ObjectId, ref: 'Student', default: null }, // none for a test message
-    kind: { type: String, enum: ['in', 'out', 'test'], required: true },
-    phone: { type: String, required: true },
-    message: { type: String, required: true },
-    day: { type: String, default: '' }, // local day of the tap
-    tapTime: { type: Date, default: null },
-    // pending: waiting to go · sending: being sent now · sent · failed: gave up
-    // cancelled: an out message that a new in tap made pointless · skipped: tap arrived too late
-    status: {
-      type: String,
-      enum: ['pending', 'sending', 'sent', 'failed', 'cancelled', 'skipped'],
-      required: true,
-      index: true,
-    },
-    sendAfter: { type: Date, default: Date.now },
-    attempts: { type: Number, default: 0 },
-    manual: { type: Boolean, default: false }, // retried by an admin: sent however old
-    provider: { type: String, default: '' },
-    error: { type: String, default: '' },
-    sentAt: { type: Date, default: null },
-  },
-  { timestamps: true }
-);
-
-notificationSchema.index({ student: 1, createdAt: -1 });
-notificationSchema.index({ status: 1, sendAfter: 1 });
-
 // Atomic per-level sequence for student IDs.
 const counterSchema = new Schema({
   _id: String, // "EL-26"
@@ -130,4 +96,3 @@ export const ProcessedTap = model('ProcessedTap', processedTapSchema);
 export const Department = model('Department', departmentSchema);
 export const Staff = model('Staff', staffSchema);
 export const StaffAttendance = model('StaffAttendance', staffAttendanceSchema);
-export const Notification = model('Notification', notificationSchema);

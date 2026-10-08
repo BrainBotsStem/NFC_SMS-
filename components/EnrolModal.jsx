@@ -17,7 +17,6 @@ export default function EnrolModal({ kind = 'student', groups, onClose, onSaved 
   const [secondsLeft, setSecondsLeft] = useState(null);
   const [name, setName] = useState('');
   const [designation, setDesignation] = useState('');
-  const [parentPhone, setParentPhone] = useState('');
   const [batch, setBatch] = useState(groups[0]?._id || '');
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
@@ -85,7 +84,7 @@ export default function EnrolModal({ kind = 'student', groups, onClose, onSaved 
       } else {
         const { student } = await api('/students', {
           method: 'POST',
-          body: JSON.stringify({ uid, name, batch, parentPhone }),
+          body: JSON.stringify({ uid, name, batch }),
         });
         onSaved(student);
       }
@@ -167,20 +166,6 @@ export default function EnrolModal({ kind = 'student', groups, onClose, onSaved 
               ))}
             </select>
           </label>
-
-          {!staff && (
-            <label className="field">
-              <span>Parent's mobile (optional)</span>
-              <input
-                type="tel"
-                inputMode="tel"
-                value={parentPhone}
-                placeholder="e.g. 077 123 4567"
-                onChange={(e) => setParentPhone(e.target.value)}
-              />
-              <small className="field-hint">The parent gets a text when the student arrives and leaves.</small>
-            </label>
-          )}
 
           <p className="sub" style={{ fontSize: 13 }}>
             {staff
